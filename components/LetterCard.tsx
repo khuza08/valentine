@@ -6,9 +6,10 @@ import confetti from 'canvas-confetti';
 
 interface LetterCardProps {
     isOpen: boolean;
+    isInside?: boolean;
 }
 
-export const LetterCard = ({ isOpen }: LetterCardProps) => {
+export const LetterCard = ({ isOpen, isInside = false }: LetterCardProps) => {
     const [answered, setAnswered] = React.useState(false);
     const [noButtonPos, setNoButtonPos] = React.useState({ x: 0, y: 0 });
 
@@ -30,15 +31,22 @@ export const LetterCard = ({ isOpen }: LetterCardProps) => {
 
     return (
         <motion.div
-            initial={{ y: 0 }}
-            animate={{ y: isOpen ? -200 : 0 }}
-            transition={{ type: 'spring', damping: 12, stiffness: 100 }}
-            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[90%] h-[300px] bg-white rounded-lg shadow-xl p-6 flex flex-col items-center justify-between text-center z-10"
-            style={{ originY: 1 }}
+            initial={{ y: isInside ? 0 : 400 }}
+            animate={{ y: isOpen ? (isInside ? -60 : 0) : (isInside ? 0 : 400) }}
+            transition={{ type: 'spring', damping: 15, stiffness: 80 }}
+            className={`w-[90%] mx-auto h-[320px] bg-white rounded-lg shadow-xl p-6 flex flex-col items-center justify-between text-center ${isInside ? 'relative top-4' : 'relative z-50'}`}
         >
             {!answered ? (
                 <>
                     <div className="space-y-4">
+                        <div className="flex justify-center mb-2">
+                            <div className="w-16 h-16 text-rose-300">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                    <path d="M12 11c0 2 0 3-1 4" />
+                                </svg>
+                            </div>
+                        </div>
                         <h2 className="text-2xl font-serif font-bold text-primary">Dear You,</h2>
                         <p className="text-rose-700 font-medium">
                             You make my heart skip a beat every time I see you. Will you be my Valentine?
