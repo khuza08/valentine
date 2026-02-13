@@ -32,9 +32,13 @@ export const LetterCard = ({ isOpen, isInside = false }: LetterCardProps) => {
     return (
         <motion.div
             initial={{ y: isInside ? 0 : 400 }}
-            animate={{ y: isOpen ? (isInside ? -60 : 0) : (isInside ? 0 : 400) }}
-            transition={{ type: 'spring', damping: 15, stiffness: 80 }}
-            className={`w-[90%] mx-auto h-[320px] bg-white rounded-lg shadow-xl p-6 flex flex-col items-center justify-between text-center ${isInside ? 'relative top-4' : 'relative z-50'}`}
+            animate={{
+                y: isOpen ? (isInside ? -350 : 0) : (isInside ? 0 : 400),
+                scale: isOpen ? 1 : 0.95,
+                rotateX: isOpen ? 0 : -5
+            }}
+            transition={{ type: 'spring', damping: 20, stiffness: 100 }}
+            className={`w-[90%] mx-auto h-[320px] bg-white rounded-lg shadow-xl p-6 flex flex-col items-center justify-between text-center relative ${isInside ? 'top-4' : 'z-50'}`}
         >
             {!answered ? (
                 <>

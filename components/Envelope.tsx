@@ -50,33 +50,55 @@ export const Envelope = () => {
                 <div className="absolute inset-0 bg-rose-300 rounded-b-xl shadow-inner z-0" />
 
                 {/* 2. The Letter Card (Hidden inside the pocket) */}
-                <div className="absolute inset-0 overflow-hidden rounded-b-xl z-10 pointer-events-none">
-                    <LetterCard isOpen={isSlidUp} isInside={true} />
-                </div>
+                <motion.div
+                    className={`absolute inset-0 rounded-b-xl transition-all duration-300 ${isSlidUp ? 'z-50' : 'z-10'} pointer-events-none`}
+                    initial={{ clipPath: 'inset(0px 0px 0px 0px)' }}
+                    style={{ clipPath: 'inset(0px 0px 0px 0px)' }}
+                    animate={{
+                        clipPath: isSlidUp
+                            ? 'inset(-500px 0px 0px 0px)' // Allow sliding out the top
+                            : 'inset(0px 0px 0px 0px)'    // Clip to envelope bounds
+                    }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                >
+                    <div className={isSlidUp ? "pointer-events-auto" : "pointer-events-none"}>
+                        <LetterCard isOpen={isSlidUp} isInside={true} />
+                    </div>
+                </motion.div>
 
                 {/* 3. The Front "Pocket" Flaps (Left, Right, Bottom) */}
-                <div className="absolute inset-0 z-20 pointer-events-none">
+                <div className="absolute inset-0 pointer-events-none">
+                    {/* Left & Right Flaps - Layered at z-20 */}
                     <div
-                        className="absolute inset-0"
-                        style={{
-                            clipPath: 'polygon(0 0, 50% 50%, 0 100%)',
-                            background: '#fda4af' /* rose-300 */
-                        }}
-                    />
-                    <div
-                        className="absolute inset-0"
-                        style={{
-                            clipPath: 'polygon(100% 0, 50% 50%, 100% 100%)',
-                            background: '#fda4af' /* rose-300 */
-                        }}
-                    />
-                    <div
-                        className="absolute inset-0"
-                        style={{
-                            clipPath: 'polygon(0 100%, 100% 100%, 50% 50%)',
-                            background: '#fecdd3' /* rose-200 */
-                        }}
-                    />
+                        className="absolute inset-0 z-20"
+                        style={{ filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.15))' }}
+                    >
+                        <div
+                            className="absolute inset-0"
+                            style={{
+                                clipPath: 'polygon(0 0, 50% 50%, 0 100%)',
+                                background: '#fda4af', /* rose-300 */
+                            }}
+                        />
+                        <div
+                            className="absolute inset-0"
+                            style={{
+                                clipPath: 'polygon(100% 0, 50% 50%, 100% 100%)',
+                                background: '#fda4af', /* rose-300 */
+                            }}
+                        />
+                    </div>
+
+                    {/* Bottom Flap - Layered at z-30 (Above others) */}
+                    <div className="absolute inset-0 z-30">
+                        <div
+                            className="absolute inset-0"
+                            style={{
+                                clipPath: 'polygon(0 100%, 100% 100%, 50% 50%)',
+                                background: '#fecdd3', /* rose-200 */
+                            }}
+                        />
+                    </div>
                 </div>
 
                 {/* 4. The Top Flap (3D Dual-Sided & Draggable) */}
@@ -135,12 +157,6 @@ export const Envelope = () => {
                 </div>
             </div>
 
-            {/* Letter reveal overlay when slid up (to make it clickable) */}
-            {isSlidUp && (
-                <div className="absolute top-[-140px] left-1/2 -translate-x-1/2 w-[300px] z-50">
-                    <LetterCard isOpen={true} isInside={false} />
-                </div>
-            )}
 
             {/* Heart Lock - Placed here to be on top of everything (Z-Index 50) */}
             {!isOpen && (
@@ -167,7 +183,7 @@ export const Envelope = () => {
                     >
                         {isLocked ? "↓" : "↑"}
                     </motion.span>
-                    {isLocked ? "TAP HEART" : "SWIPE UP"}
+                    {isLocked ? "CLICK THE HEART" : "SWIPE UP"}
                 </motion.div>
             )}
         </div>
