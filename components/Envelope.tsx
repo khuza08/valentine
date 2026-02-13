@@ -8,18 +8,21 @@ import { Heart } from 'lucide-react';
 export const Envelope = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isSlidUp, setIsSlidUp] = useState(false);
+    const [isLocked, setIsLocked] = useState(true); // New lock state
     const dragY = useMotionValue(0);
 
     // Map drag distance (-80px to 0px) to rotation (0deg to 180deg)
     const rotateX = useTransform(dragY, [-80, 0], [180, 0]);
 
     const handleDrag = (_: any, info: any) => {
+        if (isLocked) return; // Prevent drag if locked
         // Update dragY based on drag offset, clamped to prevent over-rotation
         const newY = Math.max(-80, Math.min(0, info.offset.y));
         dragY.set(newY);
     };
 
     const handleDragEnd = (_: any, info: any) => {
+        if (isLocked) return;
         // If dragged more than 40px up, trigger the full open animation
         if (!isOpen && info.offset.y < -40) {
             setIsOpen(true);
@@ -31,6 +34,11 @@ export const Envelope = () => {
             // Spring back to closed position
             dragY.set(0);
         }
+    };
+
+    const handleLockClick = (e: React.MouseEvent) => {
+        e.stopPropagation(); // Prevent triggering other clicks
+        setIsLocked(false);
     };
 
     return (
@@ -77,7 +85,7 @@ export const Envelope = () => {
                     style={{ perspective: '1500px', transformStyle: 'preserve-3d' }}
                 >
                     <motion.div
-                        drag="y"
+                        drag={!isLocked && !isOpen ? "y" : false} // Disable drag if locked
                         dragConstraints={{ top: 0, bottom: 0 }}
                         dragElastic={0}
                         dragMomentum={false}
@@ -92,7 +100,7 @@ export const Envelope = () => {
                                 ease: "easeInOut"
                             }
                         }}
-                        className="absolute inset-0 origin-top cursor-grab active:cursor-grabbing"
+                        className={`absolute inset-0 origin-top ${!isLocked ? "cursor-grab active:cursor-grabbing" : ""} preserve-3d`}
                         style={{
                             rotateX: isOpen ? 180 : rotateX,
                             transformStyle: 'preserve-3d'
@@ -110,11 +118,6 @@ export const Envelope = () => {
                             }}
                         >
                             <div className="absolute inset-0 border-t border-rose-500/20" />
-                            {!isOpen && (
-                                <div className="absolute top-[20%] left-1/2 -translate-x-1/2 text-white/50 animate-bounce">
-                                    <Heart fill="currentColor" size={24} />
-                                </div>
-                            )}
                         </div>
 
                         {/* Back Face (Inside) - Segitiga ujung ATAS (90° - 180°) */}
@@ -139,6 +142,19 @@ export const Envelope = () => {
                 </div>
             )}
 
+            {/* Heart Lock - Placed here to be on top of everything (Z-Index 50) */}
+            {!isOpen && (
+                <motion.div
+                    className="absolute top-[90px] left-1/2 -translate-x-1/2 text-white cursor-pointer z-50"
+                    onClick={handleLockClick}
+                    initial={{ y: 0, opacity: 1 }}
+                    animate={isLocked ? {} : { y: 300, opacity: 0 }} // Fall down past the envelope
+                    transition={{ duration: 0.8, ease: "easeIn" }}
+                >
+                    <Heart className="drop-shadow-xl" fill={isLocked ? "currentColor" : "none"} size={64} />
+                </motion.div>
+            )}
+
             {!isOpen && (
                 <motion.div
                     initial={{ opacity: 0 }}
@@ -149,9 +165,9 @@ export const Envelope = () => {
                         animate={{ y: [0, -10, 0] }}
                         transition={{ repeat: Infinity, duration: 1.5 }}
                     >
-                        ↑
+                        {isLocked ? "↓" : "↑"}
                     </motion.span>
-                    SWIPE UP
+                    {isLocked ? "TAP HEART" : "SWIPE UP"}
                 </motion.div>
             )}
         </div>
