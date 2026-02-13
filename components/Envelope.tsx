@@ -98,11 +98,11 @@ export const Envelope = () => {
                             transformStyle: 'preserve-3d'
                         }}
                     >
-                        {/* Front Face (Outside) */}
+                        {/* Front Face (Outside) - Segitiga ujung BAWAH (0° - 90°) */}
                         <div
                             className="absolute inset-0"
                             style={{
-                                clipPath: 'polygon(0 0, 100% 0, 50% 100%)',
+                                clipPath: 'polygon(0 0, 100% 0, 50% 100%)', // Ujung lancip di BAWAH
                                 background: '#fb7185', /* rose-400 */
                                 backfaceVisibility: 'hidden',
                                 WebkitBackfaceVisibility: 'hidden',
@@ -117,11 +117,11 @@ export const Envelope = () => {
                             )}
                         </div>
 
-                        {/* Back Face (Inside) */}
+                        {/* Back Face (Inside) - Segitiga ujung ATAS (90° - 180°) */}
                         <div
                             className="absolute inset-0"
                             style={{
-                                clipPath: 'polygon(0 0, 100% 0, 50% 100%)',
+                                clipPath: 'polygon(50% 0, 0 100%, 100% 100%)', // Ujung lancip di ATAS (MIRROR!)
                                 background: '#e11d48', /* rose-600 (Darker) */
                                 backfaceVisibility: 'hidden',
                                 WebkitBackfaceVisibility: 'hidden',
