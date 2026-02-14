@@ -6,7 +6,7 @@ import { HeartParticles } from '@/components/HeartParticles';
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-4 relative overflow-hidden bg-rose-50">
+    <main className="flex h-screen w-full flex-col items-center justify-center p-4 relative overflow-hidden bg-rose-50">
       <HeartParticles />
 
       <div className="z-10 text-center space-y-8">
