@@ -8,7 +8,7 @@ import { Heart } from 'lucide-react';
 export const Envelope = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isSlidUp, setIsSlidUp] = useState(false);
-    const [isLocked, setIsLocked] = useState(true); // New lock state
+    const [isLocked, setIsLocked] = useState(true); // Restore lock state
     const dragY = useMotionValue(0);
 
     // Map drag distance (-80px to 0px) to rotation (0deg to 180deg)
@@ -51,7 +51,7 @@ export const Envelope = () => {
 
                 {/* 2. The Letter Card (Hidden inside the pocket) */}
                 <motion.div
-                    className={`absolute inset-0 rounded-b-xl transition-all duration-300 ${isSlidUp ? 'z-50' : 'z-10'} pointer-events-none`}
+                    className={`absolute inset-0 rounded-b-xl transition-all duration-300 z-10 pointer-events-none`}
                     initial={{ clipPath: 'inset(0px 0px 0px 0px)' }}
                     style={{ clipPath: 'inset(0px 0px 0px 0px)' }}
                     animate={{
@@ -103,7 +103,7 @@ export const Envelope = () => {
 
                 {/* 4. The Top Flap (3D Dual-Sided & Draggable) */}
                 <div
-                    className="absolute inset-x-0 top-0 h-1/2 z-40"
+                    className={`absolute inset-x-0 top-0 h-1/2 ${isOpen ? 'z-0' : 'z-40'}`}
                     style={{ perspective: '1500px', transformStyle: 'preserve-3d' }}
                 >
                     <motion.div

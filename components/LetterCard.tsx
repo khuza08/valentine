@@ -35,8 +35,9 @@ export const LetterCard = ({ isOpen, isInside = false }: LetterCardProps) => {
             animate={{
                 y: isOpen ? (isInside ? -350 : 0) : (isInside ? 0 : 400),
                 scale: isOpen ? 1 : 0.95,
-                rotateX: isOpen ? 0 : -5
+                rotateX: 0 // Keep flat to avoid z-fighting with envelope
             }}
+            style={{ transformStyle: 'preserve-3d' }}
             transition={{ type: 'spring', damping: 20, stiffness: 100 }}
             className={`w-[90%] mx-auto h-[320px] bg-white rounded-lg shadow-xl p-6 flex flex-col items-center justify-between text-center relative ${isInside ? 'top-4' : 'z-50'}`}
         >
