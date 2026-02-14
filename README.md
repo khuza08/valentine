@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Valentine's Day Interactive Card
+
+A beautiful, interactive digital Valentine's Day card built with Next.js, Framer Motion, and Tailwind CSS. Features a 3D envelope opening animation and a heartfelt letter reveal.
 
 ## Getting Started
 
-First, run the development server:
+Follow these steps to set up and run the project on your local machine.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Prerequisites
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [Node.js](https://nodejs.org/) (version 18 or higher recommended)
+- `npm` or `yarn`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/yourusername/valentine.git
+    cd valentine
+    ```
 
-## Learn More
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+3.  **Run the development server:**
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4.  **Open in your browser:**
+    Navigate to [http://localhost:3000](http://localhost:3000) to see your card!
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## How to Customize the Message
 
-## Deploy on Vercel
+To personalize the letter content, follow these steps:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1.  Open the file `components/LetterCard.tsx` in your code editor.
+2.  Scroll down to the **Line ~42** (inside the `return` statement).
+3.  Edit the text inside the `<h2>` tag for the greeting:
+    ```tsx
+    <h2 className="...">Dear [Name],</h2>
+    ```
+4.  Edit the paragraphs inside the `<div className="prose ...">` block to write your own message:
+    ```tsx
+    <p>Your custom message goes here...</p>
+    ```
+5.  Edit the signature at the bottom:
+    ```tsx
+    <span className="...">Your Name</span>
+    ```
+6.  Save the file, and the changes will instantly reflect in your browser!
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## How to Open the Card
+
+The card features a fun, interactive opening sequence:
+
+1.  **Click the Heart Lock**: On the envelope flap, you'll see a pulsing heart icon. Click it to "unlock" the envelope.
+2.  **Swipe Up / Drag**: Once unlocked, click and drag the envelope flap upwards (or just wait for the animation) to open it.
+3.  **Watch the Magic**: The card will slide out of the envelope and expand to the center of the screen for you to read.
+
