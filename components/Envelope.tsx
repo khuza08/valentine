@@ -45,6 +45,14 @@ export const Envelope = () => {
 
     return (
         <div className="relative flex flex-col items-center">
+            {/* Overlay for focus when card is centered */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isCentered ? 1 : 0 }}
+                transition={{ duration: 0.5 }}
+                className={`fixed inset-0 bg-black/60 backdrop-blur-lg z-40 ${isCentered ? 'pointer-events-auto' : 'pointer-events-none'}`}
+            />
+
             {/* The Envelope - Container with 3D Perspective */}
             <div className="relative w-[340px] h-[240px] perspective-[1500px]">
 
@@ -64,7 +72,9 @@ export const Envelope = () => {
                     transition={{ duration: 0.5, ease: "easeInOut" }}
                 >
                     <div className={isSlidUp ? "pointer-events-auto" : "pointer-events-none"}>
-                        <LetterCard isOpen={isSlidUp} isInside={true} isCentered={isCentered} />
+                        {!isCentered && (
+                            <LetterCard isOpen={isSlidUp} isInside={true} layoutId="letter-card" />
+                        )}
                     </div>
                 </motion.div>
 
@@ -160,18 +170,28 @@ export const Envelope = () => {
             </div>
 
 
+
+            {/* Re-parented LetterCard for centering (outside of 3D context) */}
+            {
+                isCentered && (
+                    <LetterCard isOpen={true} isInside={false} isCentered={true} layoutId="letter-card" />
+                )
+            }
+
             {/* Heart Lock - Placed here to be on top of everything (Z-Index 50) */}
-            {!isOpen && (
-                <motion.div
-                    className="absolute top-[90px] left-1/2 -translate-x-1/2 text-white cursor-pointer z-50"
-                    onClick={handleLockClick}
-                    initial={{ y: 0, opacity: 1 }}
-                    animate={isLocked ? {} : { y: 300, opacity: 0 }} // Fall down past the envelope
-                    transition={{ duration: 0.8, ease: "easeIn" }}
-                >
-                    <Heart className="drop-shadow-xl" fill={isLocked ? "currentColor" : "none"} size={64} />
-                </motion.div>
-            )}
+            {
+                !isOpen && (
+                    <motion.div
+                        className="absolute top-[90px] left-1/2 -translate-x-1/2 text-white cursor-pointer z-50"
+                        onClick={handleLockClick}
+                        initial={{ y: 0, opacity: 1 }}
+                        animate={isLocked ? {} : { y: 300, opacity: 0 }} // Fall down past the envelope
+                        transition={{ duration: 0.8, ease: "easeIn" }}
+                    >
+                        <Heart className="drop-shadow-xl" fill={isLocked ? "currentColor" : "none"} size={64} />
+                    </motion.div>
+                )
+            }
 
             <motion.div
                 initial={{ opacity: 1 }}
@@ -186,6 +206,6 @@ export const Envelope = () => {
                 </motion.span>
                 {isLocked ? "CLICK THE HEART" : "SWIPE UP"}
             </motion.div>
-        </div>
+        </div >
     );
 };

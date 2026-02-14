@@ -8,40 +8,33 @@ interface LetterCardProps {
     isOpen: boolean;
     isInside?: boolean;
     isCentered?: boolean;
+    layoutId?: string;
 }
 
-export const LetterCard = ({ isOpen, isInside = false, isCentered = false }: LetterCardProps) => {
+export const LetterCard = ({ isOpen, isInside = false, isCentered = false, layoutId }: LetterCardProps) => {
 
     return (
         <motion.div
+            layoutId={layoutId}
+            layout
             initial={{ y: isInside ? 0 : 400 }}
-            animate={isCentered ? {
-                position: 'fixed',
-                top: '50%',
-                left: '50%',
-                x: '-50%',
-                y: '-50%',
-                width: '90vw',
-                height: '90vh',
-                scale: 1,
-                rotateX: 0,
-                zIndex: 100,
-                transition: { duration: 0.8, type: "spring", damping: 25, stiffness: 120 }
-            } : {
-                position: 'absolute',
-                top: isInside ? '1rem' : 'auto',
-                left: '50%',
-                x: '-50%',
-                y: isOpen ? (isInside ? -350 : 0) : (isInside ? 0 : 400),
-                scale: isOpen ? 1 : 0.95,
-                width: '90%',
-                height: 320,
-                rotateX: 0,
-                zIndex: isInside ? 0 : 50,
-                transition: { type: 'spring', damping: 20, stiffness: 100 }
+            animate={{
+                y: isCentered ? 0 : (isOpen ? (isInside ? -350 : 0) : (isInside ? 0 : 400)),
+                scale: isCentered ? 1 : (isOpen ? 1 : 0.95),
+                rotateX: 0
             }}
-            style={{ transformStyle: 'preserve-3d' }}
-            className={`bg-white/95 backdrop-blur-sm rounded-xl shadow-2xl p-8 md:p-12 flex flex-col gap-6 text-center overflow-hidden border border-rose-100`}
+            transition={{ type: 'spring', damping: 20, stiffness: 100 }}
+            style={{
+                transformStyle: 'preserve-3d',
+                top: !isCentered && isInside ? '1rem' : undefined
+            }}
+            className={`
+                bg-white rounded-xl shadow-2xl p-8 md:p-12 flex flex-col gap-6 text-center overflow-hidden border-2 border-rose-200
+                ${isCentered
+                    ? 'fixed inset-0 m-auto w-[90vw] h-[90vh] z-[100]'
+                    : `absolute left-1/2 -translate-x-1/2 w-[90%] h-[320px] ${isInside ? 'z-0' : 'z-50'}`
+                }
+            `}
         >
             <div className="w-full h-full overflow-y-auto no-scrollbar flex flex-col items-center gap-6">
 
