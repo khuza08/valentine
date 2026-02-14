@@ -17,7 +17,7 @@ Follow these steps to set up and run the project on your local machine.
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/yourusername/valentine.git
+    git clone https://github.com/khuza08/valentine.git
     cd valentine
     ```
 
