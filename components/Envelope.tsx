@@ -8,36 +8,38 @@ import { Heart } from 'lucide-react';
 export const Envelope = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isSlidUp, setIsSlidUp] = useState(false);
-    const [isLocked, setIsLocked] = useState(true); // Restore lock state
+    const [isCentered, setIsCentered] = useState(false); // New state for centering
+    const [isLocked, setIsLocked] = useState(true);
     const dragY = useMotionValue(0);
 
     // Map drag distance (-80px to 0px) to rotation (0deg to 180deg)
     const rotateX = useTransform(dragY, [-80, 0], [180, 0]);
 
     const handleDrag = (_: any, info: any) => {
-        if (isLocked) return; // Prevent drag if locked
-        // Update dragY based on drag offset, clamped to prevent over-rotation
+        if (isLocked) return;
         const newY = Math.max(-80, Math.min(0, info.offset.y));
         dragY.set(newY);
     };
 
     const handleDragEnd = (_: any, info: any) => {
         if (isLocked) return;
-        // If dragged more than 40px up, trigger the full open animation
         if (!isOpen && info.offset.y < -40) {
             setIsOpen(true);
-            dragY.set(0); // Reset dragY
+            dragY.set(0);
             setTimeout(() => {
                 setIsSlidUp(true);
+                // After sliding up, move to center
+                setTimeout(() => {
+                    setIsCentered(true);
+                }, 800);
             }, 500);
         } else {
-            // Spring back to closed position
             dragY.set(0);
         }
     };
 
     const handleLockClick = (e: React.MouseEvent) => {
-        e.stopPropagation(); // Prevent triggering other clicks
+        e.stopPropagation();
         setIsLocked(false);
     };
 
@@ -51,18 +53,18 @@ export const Envelope = () => {
 
                 {/* 2. The Letter Card (Hidden inside the pocket) */}
                 <motion.div
-                    className={`absolute inset-0 rounded-b-xl transition-all duration-300 z-10 pointer-events-none`}
+                    className={`absolute inset-0 rounded-b-xl transition-all duration-300 ${isCentered ? 'z-50' : 'z-10'} pointer-events-none`}
                     initial={{ clipPath: 'inset(0px 0px 0px 0px)' }}
                     style={{ clipPath: 'inset(0px 0px 0px 0px)' }}
                     animate={{
                         clipPath: isSlidUp
-                            ? 'inset(-500px 0px 0px 0px)' // Allow sliding out the top
-                            : 'inset(0px 0px 0px 0px)'    // Clip to envelope bounds
+                            ? 'inset(-100% -50% -50% -50%)' // Expand clip path to allow centering over envelope
+                            : 'inset(0px 0px 0px 0px)'
                     }}
                     transition={{ duration: 0.5, ease: "easeInOut" }}
                 >
                     <div className={isSlidUp ? "pointer-events-auto" : "pointer-events-none"}>
-                        <LetterCard isOpen={isSlidUp} isInside={true} />
+                        <LetterCard isOpen={isSlidUp} isInside={true} isCentered={isCentered} />
                     </div>
                 </motion.div>
 

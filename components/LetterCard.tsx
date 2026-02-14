@@ -7,9 +7,10 @@ import confetti from 'canvas-confetti';
 interface LetterCardProps {
     isOpen: boolean;
     isInside?: boolean;
+    isCentered?: boolean;
 }
 
-export const LetterCard = ({ isOpen, isInside = false }: LetterCardProps) => {
+export const LetterCard = ({ isOpen, isInside = false, isCentered = false }: LetterCardProps) => {
     const [answered, setAnswered] = React.useState(false);
     const [noButtonPos, setNoButtonPos] = React.useState({ x: 0, y: 0 });
 
@@ -33,9 +34,10 @@ export const LetterCard = ({ isOpen, isInside = false }: LetterCardProps) => {
         <motion.div
             initial={{ y: isInside ? 0 : 400 }}
             animate={{
-                y: isOpen ? (isInside ? -350 : 0) : (isInside ? 0 : 400),
-                scale: isOpen ? 1 : 0.95,
-                rotateX: 0 // Keep flat to avoid z-fighting with envelope
+                y: isCentered ? -120 : (isOpen ? (isInside ? -350 : 0) : (isInside ? 0 : 400)),
+                scale: isCentered ? 1.2 : (isOpen ? 1 : 0.95),
+                rotateX: 0,
+                zIndex: isCentered ? 50 : 0
             }}
             style={{ transformStyle: 'preserve-3d' }}
             transition={{ type: 'spring', damping: 20, stiffness: 100 }}
