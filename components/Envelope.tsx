@@ -66,7 +66,7 @@ export const Envelope = () => {
                     style={{ clipPath: 'inset(0px 0px 0px 0px)' }}
                     animate={{
                         clipPath: isSlidUp
-                            ? 'inset(-100% -50% -50% -50%)' // Expand clip path to allow centering over envelope
+                            ? 'inset(-100% -50% 0px -50%)' // Expand clip path to allow centering over envelope
                             : 'inset(0px 0px 0px 0px)'
                     }}
                     transition={{ type: 'spring', damping: 20, stiffness: 100 }}

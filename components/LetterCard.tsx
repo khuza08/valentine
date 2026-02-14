@@ -20,7 +20,7 @@ export const LetterCard = ({ isOpen, isInside = false, isCentered = false, layou
             initial={{ y: isInside ? 0 : 400 }}
             animate={{
                 y: isCentered ? 0 : (isOpen ? (isInside ? -350 : 0) : (isInside ? 0 : 400)),
-                scale: isCentered ? 1 : (isOpen ? 1 : 0.95),
+                scale: isCentered ? 1 : 0.95,
             }}
             transition={{ type: 'spring', damping: 20, stiffness: 100 }}
             style={{
