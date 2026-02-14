@@ -33,15 +33,33 @@ export const LetterCard = ({ isOpen, isInside = false, isCentered = false }: Let
     return (
         <motion.div
             initial={{ y: isInside ? 0 : 400 }}
-            animate={{
-                y: isCentered ? -120 : (isOpen ? (isInside ? -350 : 0) : (isInside ? 0 : 400)),
-                scale: isCentered ? 1.2 : (isOpen ? 1 : 0.95),
+            animate={isCentered ? {
+                position: 'fixed',
+                top: '50%',
+                left: '50%',
+                x: '-50%',
+                y: '-50%',
+                width: '90vw',
+                height: '90vh',
+                scale: 1,
                 rotateX: 0,
-                zIndex: isCentered ? 50 : 0
+                zIndex: 100,
+                transition: { duration: 0.8, type: "spring", damping: 25, stiffness: 120 }
+            } : {
+                position: 'absolute',
+                top: isInside ? '1rem' : 'auto',
+                left: '50%',
+                x: '-50%',
+                y: isOpen ? (isInside ? -350 : 0) : (isInside ? 0 : 400),
+                scale: isOpen ? 1 : 0.95,
+                width: '90%',
+                height: 320,
+                rotateX: 0,
+                zIndex: isInside ? 0 : 50,
+                transition: { type: 'spring', damping: 20, stiffness: 100 }
             }}
             style={{ transformStyle: 'preserve-3d' }}
-            transition={{ type: 'spring', damping: 20, stiffness: 100 }}
-            className={`w-[90%] mx-auto h-[320px] bg-white rounded-lg shadow-xl p-6 flex flex-col items-center justify-between text-center relative ${isInside ? 'top-4' : 'z-50'}`}
+            className={`bg-white rounded-lg shadow-xl p-6 flex flex-col items-center justify-between text-center`}
         >
             {!answered ? (
                 <>
