@@ -171,21 +171,19 @@ export const Envelope = () => {
                 </motion.div>
             )}
 
-            {!isOpen && (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="mt-12 text-rose-500 font-bold tracking-[0.3em] text-xs flex flex-col items-center gap-2"
+            <motion.div
+                initial={{ opacity: 1 }}
+                animate={{ opacity: isOpen ? 0 : 1 }}
+                className={`mt-12 text-rose-500 font-bold tracking-[0.3em] text-xs flex flex-col items-center gap-2 ${isOpen ? 'pointer-events-none' : ''}`}
+            >
+                <motion.span
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ repeat: Infinity, duration: 1.5 }}
                 >
-                    <motion.span
-                        animate={{ y: [0, -10, 0] }}
-                        transition={{ repeat: Infinity, duration: 1.5 }}
-                    >
-                        {isLocked ? "↓" : "↑"}
-                    </motion.span>
-                    {isLocked ? "CLICK THE HEART" : "SWIPE UP"}
-                </motion.div>
-            )}
+                    {isLocked ? "↓" : "↑"}
+                </motion.span>
+                {isLocked ? "CLICK THE HEART" : "SWIPE UP"}
+            </motion.div>
         </div>
     );
 };
