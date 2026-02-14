@@ -11,7 +11,7 @@ export default function Home() {
 
       <div className="z-10 text-center space-y-8">
         <header className="space-y-2">
-          <h1 className="text-4xl md:text-6xl font-serif font-bold text-primary drop-shadow-sm">
+          <h1 className="text-rose-600 text-4xl md:text-6xl font-serif font-bold text-primary drop-shadow-sm">
             Happy Valentine's Day
           </h1>
           <p className="text-rose-400 font-medium tracking-widest uppercase text-sm">
