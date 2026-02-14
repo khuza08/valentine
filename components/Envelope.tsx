@@ -69,7 +69,7 @@ export const Envelope = () => {
                             ? 'inset(-100% -50% -50% -50%)' // Expand clip path to allow centering over envelope
                             : 'inset(0px 0px 0px 0px)'
                     }}
-                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                    transition={{ type: 'spring', damping: 20, stiffness: 100 }}
                 >
                     <div className={isSlidUp ? "pointer-events-auto" : "pointer-events-none"}>
                         {!isCentered && (
