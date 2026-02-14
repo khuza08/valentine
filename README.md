@@ -2,6 +2,8 @@
 
 A beautiful, interactive digital Valentine's Day card built with Next.js, Framer Motion, and Tailwind CSS. Features a 3D envelope opening animation and a heartfelt letter reveal.
 
+<img height="128" alt="valentine " src="https://github.com/user-attachments/assets/969f9340-5ccb-4f88-b7c0-56ca2968c1bb" />
+
 ## Getting Started
 
 Follow these steps to set up and run the project on your local machine.
